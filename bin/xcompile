@@ -1,0 +1,23 @@
+#!/bin/bash
+source $XBIT_BIN_PATH/bin/xenv
+cd $XBIT_DEV_PATH
+#mvn compile
+#mvn package --offline
+MAVEN_OPTS="-Xms256m -Xmx1024m -Xjit:quickProfile -Xquickstart -Xsharedclasses:name=mvn -DargLine=-Xquickstart -Xshare:off -Xverify:none"
+#mvn -T 1C install -am -offline
+#mvn -T 1C -am -offline clean compile assembly:single install
+#mvn -q -T 1C -am -offline compile assembly:single install
+
+#mvn -T 1C -am -offline compile assembly:single
+
+#mvn -Dorg.slf4j.simpleLogger.defaultLogLevel=info -T 3 -am -offline compiler:compile jar:jar
+printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+#mvn -Dorg.slf4j.simpleLogger.defaultLogLevel=info -T 3 -offline compiler:compile jar:jar
+#cat /tmp/javac.log
+#./gradlew test jacocoTestReport jar --scan
+#gradle --stacktrace --warning-mode all build
+#gradle --continuous build
+
+gradle $* --daemon --offline -I customLogger.init.gradle build
+#gradle $* --daemon --offline build
+#gradle --rerun-tasks build

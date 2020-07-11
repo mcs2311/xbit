@@ -1,0 +1,6 @@
+#!/bin/bash
+source $XBIT_BIN_PATH/bin/xenv
+cd $XBIT_DEV_PATH
+
+#diskutil erasevolume HFS+ 'ram' `hdiutil attach -nomount ram://8388608`
+

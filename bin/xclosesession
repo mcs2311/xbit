@@ -1,0 +1,7 @@
+#!/bin/bash
+source $XBIT_BIN_PATH/bin/xenv
+cd $XBIT_DEV_PATH
+
+
+
+#diskutil eject /dev/disk2

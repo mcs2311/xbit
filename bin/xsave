@@ -1,0 +1,19 @@
+#!/bin/bash
+
+save(){
+DATE=`date +%Y_%m_%d_%H_%M`
+#rsync --compress-level=8 -razv --relative -a --progress -r --exclude 'target' --exclude ".gradle" --exclude 'docs' --exclude 'tmp' --exclude 'build' --exclude '.git' $XBIT_DEV_PATH/./ $BACKUP_PATH/ >&2
+#rsync --compress-level=8 -razv --relative -a --progress -r --exclude 'libs' --exclude 'docs' --exclude 'tmp' --exclude '*.cache' --exclude '*.log' --exclude '*.tmp' --exclude '*.vcd'  --exclude 'logs/*' $XBIT_BIN_PATH/./ $BACKUP_PATH/.xbit/ >&2
+
+EXCLUDES=--exclude '*.data' --exclude 'target' --exclude '.gradle' --exclude 'docs' --exclude 'tmp' --exclude 'build' --exclude '.git' --exclude='*.jar' --exclude='.DS_Store'  --exclude 'libs' --exclude 'docs' --exclude 'tmp' --exclude '*.cache' --exclude '*.log' --exclude '*.tmp' --exclude '*.vcd' --exclude 'logs/*'
+LOCAL_BACKUP_PATH=/Users/marius/.backup/$DATE
+mkdir $LOCAL_BACKUP_PATH
+tar -cvzf $EXCLUDES $LOCAL_BACKUP_PATH/.xbit.tar.gz /Users/marius/.xbit
+tar -cvzf $EXCLUDES $LOCAL_BACKUP_PATH/xbit.tar.gz /Users/marius/codex/xbit
+
+REMOTE_BACKUP_PATH=$1:/home/marius/.backup/$DATE
+echo "Sync xbit to [$REMOTE_BACKUP_PATH] ..." >&2
+rsync -razv --relative -a --progress -r $LOCAL_BACKUP_PATH/./ $REMOTE_BACKUP_PATH/ >&2
+}
+
+$(save marius@moviejab.com)

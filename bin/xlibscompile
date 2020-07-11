@@ -1,0 +1,15 @@
+#!/bin/bash
+source $XBIT_BIN_PATH/bin/xenv
+export XBIT_LIBS_PATH="$XBIT_DEV_PATH/libs"
+MAVEN_OPTS="-Xjit:quickProfile -Xquickstart -Xsharedclasses:name=mvn -DargLine=-Xquickstart -Xshare:off -Xverify:none"
+
+#export NET_STATUS="--offline"
+export NET_STATUS=""
+#export LOGGER="-I customLogger.init.gradle"
+export LOGGER=""
+
+printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+
+printf "\n xbit lib...-----------------------------------------------------------------------\n"
+cd $XBIT_DEV_PATH/libs/
+gradle $NET_STATUS $LOGGER build
