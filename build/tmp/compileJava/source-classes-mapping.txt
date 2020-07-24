@@ -60,8 +60,8 @@ api/server/trader/env/users/level3/mixers/Mixer.java
  codex.xbit.api.server.trader.env.users.level3.mixers.Mixer
 api/server/trader/env/users/level4/orderbooks/sides/orders/decisionchain/chains/S5_WisenessCalculatorChain.java
  codex.xbit.api.server.trader.env.users.level4.orderbooks.sides.orders.decisionchain.chains.S5_WisenessCalculatorChain
-api/server/trader/env/users/level4/orderbooks/sides/sidesorderscontainer/SidesOrdersContainer.java
- codex.xbit.api.server.trader.env.users.level4.orderbooks.sides.sidesorderscontainers.SidesOrdersContainer
+api/server/trader/env/users/Users.java
+ codex.xbit.api.server.trader.env.users.Users
 api/server/trader/env/single/level5/signals/helpers/whalealert/objects/TransactionList.java
  codex.xbit.api.server.trader.env.single.level5.signals.helpers.whalealert.objects.TransactionList
 api/server/trader/env/single/level1/repositories/output/helpers/TradeRepository.java
@@ -134,8 +134,8 @@ api/server/trader/env/users/level5/Level5.java
  codex.xbit.api.server.trader.env.users.level5.Level5
 api/server/trader/env/single/level6/pilots/helpers/auto/risky/RiskyPilot.java
  codex.xbit.api.server.trader.env.single.level6.pilots.helpers.auto.risky.RiskyPilot
-api/client/gui/tab/tabs/tactics/TacticsLoader.java
- codex.xbit.api.client.gui.tab.tabs.tactics.TacticsLoader
+api/server/trader/env/users/level5/brokers/Brokers.java
+ codex.xbit.api.server.trader.env.users.level5.brokers.Brokers
 api/server/trader/env/users/level7/tactics/Tactic.java
  codex.xbit.api.server.trader.env.users.level7.tactics.Tactic
 api/server/trader/env/users/level6/pairs/Pairs.java
@@ -214,9 +214,8 @@ api/server/trader/common/events/single/OrderbookEvent.java
  codex.xbit.api.server.trader.common.events.single.OrderbookEvent
 api/common/loaders/serializers/TraderSerializer.java
  codex.xbit.api.common.loaders.serializers.TraderSerializer
-api/server/trader/common/loaders/orders/OrdersLoader.java
- codex.xbit.api.server.trader.common.loaders.orders.OrdersLoader
- codex.xbit.api.server.trader.common.loaders.orders.OrdersLoader$1
+api/server/trader/env/users/level4/orderbooks/sides/orders/decisionchain/chains/S3_TrailingProcentChain.java
+ codex.xbit.api.server.trader.env.users.level4.orderbooks.sides.orders.decisionchain.chains.S3_TrailingProcentChain
 api/server/trader/env/users/level2/shadowbalances/ShadowBalances.java
  codex.xbit.api.server.trader.env.users.level2.shadowbalances.ShadowBalances
 api/client/gui/tab/tabs/currencypairs/CurrencyPairsLoader.java
@@ -225,8 +224,8 @@ api/server/trader/core/components/orders/LinkableOrder.java
  codex.xbit.api.server.trader.core.components.orders.LinkableOrder
 api/common/loaders/ClientConfigurationLoader.java
  codex.xbit.api.common.loaders.ClientConfigurationLoader
-api/client/gui/tab/tabs/users/UserPanel.java
- codex.xbit.api.client.gui.tab.tabs.users.UserPanel
+api/common/streams/NetStream.java
+ codex.xbit.api.common.streams.NetStream
 api/utils/CurrencyUtils.java
  codex.common.utils.CurrencyUtils
 api/server/trader/env/users/level2/shadoworders/ShadowOrder.java
@@ -458,11 +457,12 @@ api/client/gui/components/tables/models/OrderbookTableModel.java
  codex.xbit.api.client.gui.components.tables.models.OrderbookTableModel$1
 api/server/trader/env/users/level1/rawtrades/RawTrades.java
  codex.xbit.api.server.trader.env.users.level1.rawtrades.RawTrades
-api/server/trader/env/users/Users.java
- codex.xbit.api.server.trader.env.users.Users
-api/server/trader/env/users/level4/orderbooks/sides/orders/decisionchain/chains/S3_TrailingProcentChain.java
- codex.xbit.api.server.trader.env.users.level4.orderbooks.sides.orders.decisionchain.chains.S3_TrailingProcentChain
-api/server/trader/env/users/level5/brokers/Brokers.java
- codex.xbit.api.server.trader.env.users.level5.brokers.Brokers
-api/common/streams/NetStream.java
- codex.xbit.api.common.streams.NetStream
+api/client/gui/tab/tabs/users/UserPanel.java
+ codex.xbit.api.client.gui.tab.tabs.users.UserPanel
+api/client/gui/tab/tabs/tactics/TacticsLoader.java
+ codex.xbit.api.client.gui.tab.tabs.tactics.TacticsLoader
+api/server/trader/common/loaders/orders/OrdersLoader.java
+ codex.xbit.api.server.trader.common.loaders.orders.OrdersLoader
+ codex.xbit.api.server.trader.common.loaders.orders.OrdersLoader$1
+api/server/trader/env/users/level4/orderbooks/sides/sidesorderscontainer/SidesOrdersContainer.java
+ codex.xbit.api.server.trader.env.users.level4.orderbooks.sides.sidesorderscontainers.SidesOrdersContainer

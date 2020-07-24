@@ -6,17 +6,18 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import io.reactivex.*;
-import io.reactivex.functions.*;
-import io.reactivex.schedulers.*;
+import io.reactivex.rxjava3.core.*;
+import io.reactivex.rxjava3.functions.*;
+import io.reactivex.rxjava3.schedulers.*;
 
 import codex.common.utils.*;
+
 import codex.xbit.api.common.configs.*;
 import codex.xbit.api.common.packets.*;
 import codex.xbit.api.common.streams.*;
 
 //-------------------------------------------------------------------------------------
-public class NetCommandRequester {
+public class NetCommandRequester implements Consumer<Throwable>{
     private Debug debug;
     private ServerConfiguration serverConfiguration;
     private NetClient netClient;
@@ -55,7 +56,8 @@ public class NetCommandRequester {
 		})
 		.subscribeOn(Schedulers.io())
 		.observeOn(Schedulers.single())
-		.subscribe(_consumer);
+		.subscribe(_consumer, 
+			this);
 	}
 
 //-------------------------------------------------------------------------------------
@@ -72,6 +74,11 @@ public class NetCommandRequester {
             serverConfiguration.setStartTime(_startTime);
         }
         return _packet;
+    }
+
+//-------------------------------------------------------------------------------------
+    public void accept(Throwable _t) {
+        ExceptionUtils.printException(debug, this, _t);
     }
 
 //-------------------------------------------------------------------------------------

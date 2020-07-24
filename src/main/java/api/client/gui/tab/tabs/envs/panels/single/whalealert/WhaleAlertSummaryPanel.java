@@ -12,8 +12,9 @@ import javax.swing.event.*;
 
 import org.ocpsoft.prettytime.*;
 
-import io.reactivex.*;
-import io.reactivex.functions.*;
+import io.reactivex.rxjava3.core.*;
+import io.reactivex.rxjava3.functions.*;
+import io.reactivex.rxjava3.schedulers.*;
 
 import codex.common.utils.*;
 

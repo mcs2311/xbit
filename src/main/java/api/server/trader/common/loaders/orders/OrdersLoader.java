@@ -211,6 +211,9 @@ public class OrdersLoader {
 	            System.exit(0);
         	}
 
+        } else {
+			debug.outln(Debug.WARNING, "["+this+"]Invalid order row detected: " + getFilename() + ":" + _index +"Row:["+_row+"]");
+			System.exit(0);
         }
     }
 

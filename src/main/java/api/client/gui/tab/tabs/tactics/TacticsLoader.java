@@ -49,9 +49,14 @@ public class TacticsLoader extends AbstractLoader {
         java.util.List<TacticConfiguration> _tacticConfigurations = null;
         if(_netCommand != null){
             _tacticConfigurations = (java.util.List<TacticConfiguration>)_netCommand.getMessage();
-            debug.out(Debug.IMPORTANT1, "_netCommand not null: _tacticConfigurations.size="+_tacticConfigurations.size());
+            if(_tacticConfigurations != null){
+            	debug.outln(Debug.IMPORTANT1, "_netCommand not null: _tacticConfigurations.size="+_tacticConfigurations.size());
+            } else {
+            	debug.outln(Debug.IMPORTANT1, "_tacticConfigurations is null");
+            	return;
+            }
         } else {
-            debug.out(Debug.IMPORTANT1, "_netCommand null");            
+            debug.outln(Debug.IMPORTANT1, "_netCommand null");            
         }
 
 
