@@ -31,8 +31,8 @@ public class SignalsConfiguration extends AbstractConfiguration implements Seria
     	try{
     		return new SignalConfiguration(_name, getConfidence(_name));
     	} catch(NullPointerException _e){
-    		System.out.println("Signals settings is null[" + _name + "]...\nExiting...");
-    		System.exit(0);
+//    		System.out.println("Signals settings is null[" + _name + "]...\nExiting...");
+//    		System.exit(0);
     	}
     	return null;
     }

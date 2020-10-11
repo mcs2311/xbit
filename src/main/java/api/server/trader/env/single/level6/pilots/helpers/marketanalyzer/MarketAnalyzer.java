@@ -108,7 +108,7 @@ public class MarketAnalyzer extends AbstractItem {
 	    	bearProbability.down(_confidence, _time);
 	    	bullProbability.down(_confidence, _time);
 	    }
-    	debug.outln(Debug.INFO, "computeMarketProbabilities.MarketModelEvent.out: bearProbability="+bearProbability+", bullProbability="+bullProbability+", _marketModelEvent="+_marketModelEvent);
+//    	debug.outln(Debug.INFO, "computeMarketProbabilities.MarketModelEvent.out: bearProbability="+bearProbability+", bullProbability="+bullProbability+", _marketModelEvent="+_marketModelEvent);
     }
 
 //-------------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ import codex.xbit.api.client.gui.components.tables.models.*;
 import codex.xbit.api.client.gui.status.*;
 import codex.xbit.api.client.gui.tab.*;
 import codex.xbit.api.client.gui.tab.tabs.users.*;
-import codex.xbit.api.client.gui.tree.nodes.*;
+import codex.xbit.api.client.gui.selector.tree.nodes.*;
 
 
 //-------------------------------------------------------------------------------------

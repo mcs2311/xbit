@@ -38,6 +38,7 @@ import codex.xbit.api.common.aspects.*;
 import codex.xbit.api.server.trader.core.components.*;
 
 import codex.xbit.api.server.trader.env.single.level5.signals.*;
+import codex.xbit.api.server.trader.env.single.level5.signals.helpers.whalealert.crawler.*;
 
 //-------------------------------------------------------------------------------------
 public class WhaleAlertSignal extends Signal {
@@ -46,6 +47,7 @@ public class WhaleAlertSignal extends Signal {
 	//---cache:
 
 	//---statics:
+	private static WhaleAlertCrawler whaleAlertCrawler;
 
 //-------------------------------------------------------------------------------------
     public WhaleAlertSignal(Debug _debug, Resolver _resolver, SignalConfiguration _signalConfiguration, CurrencyPair _currencyPair, List<String> _arg) {
@@ -55,7 +57,6 @@ public class WhaleAlertSignal extends Signal {
     }
 
 
-//-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------

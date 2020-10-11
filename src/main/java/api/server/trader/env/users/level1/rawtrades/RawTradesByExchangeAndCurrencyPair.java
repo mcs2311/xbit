@@ -167,7 +167,7 @@ public class RawTradesByExchangeAndCurrencyPair extends AbstractCluster<Configur
 //		debug.outln("Check for new trades...0: lastTradeId="+lastTradeId + ", lastTradeTime="+lastTradeTime);
 		UserTrades _userTrades = null;
 		try{
-			_userTrades = tradeService.getTradeHistory​(tradeHistoryParamsAll);			
+			_userTrades = tradeService.getTradeHistory(tradeHistoryParamsAll);			
 		} catch(IOException _e){
 			debug.outln(Debug.ERROR, "Cannot retreive trades...");
 			return;

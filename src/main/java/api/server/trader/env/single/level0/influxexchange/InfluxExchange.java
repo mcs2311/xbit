@@ -33,6 +33,8 @@ import codex.xbit.api.server.trader.core.components.*;
 //-------------------------------------------------------------------------------------
 public class InfluxExchange extends AbstractExchange<ExchangeConfiguration> {
 
+    private ProductSubscription productSubscription;
+    private ProductSubscription.ProductSubscriptionBuilder productSubscriptionBuilder;
     //---rx:
 
     //---statics:
@@ -42,6 +44,9 @@ public class InfluxExchange extends AbstractExchange<ExchangeConfiguration> {
         super(_debug, _resolver, _exchangeConfiguration);
 //        log.info("qqqqq");
         exchangeConfiguration = _exchangeConfiguration;
+
+        productSubscriptionBuilder = ProductSubscription.create();
+
         load();
     }
 
@@ -85,22 +90,32 @@ public class InfluxExchange extends AbstractExchange<ExchangeConfiguration> {
 //-------------------------------------------------------------------------------------
 //https://github.com/bitrich-info/xchange-stream
 //-------------------------------------------------------------------------------------
-    private void initExchangeStreams(String _streamingName) {
+    private synchronized void initExchangeStreams(String _streamingName) {
 //    	debug.outln("streamingExchange.1: " + configuration.getShortName());
+
+// for binance
+//		
+        if(configuration.needsToSubscribeBeforeConnect()){
+        	waitUntilIsSubscribed();
+        }
+
+        productSubscription = productSubscriptionBuilder.build();
 
         while(streamingExchange == null){
 //    	debug.outln("streamingExchange.2: " + configuration.getShortName());
             try{
-//	    		streamingExchange = StreamingExchangeFactory.INSTANCE.createExchange(_exchangeSpecification);
 	    		streamingExchange = StreamingExchangeFactory.INSTANCE.createExchange(_streamingName);
-	    		streamingExchange.useCompressedMessages(configuration.useCompression());
+	    		if(configuration.useCompression()){
+	    			streamingExchange.useCompressedMessages(true);
+	    		}
 				// Connect to the StreamingExchangeX WebSocket API. Blocking wait for the connection.
-//				streamingExchange.connect(productSubscription).blockingAwait();        	
-				streamingExchange.connect().blockingAwait();        	
+				streamingExchange.connect(productSubscription).blockingAwait();        	
+//				streamingExchange.connect().blockingAwait();        	
 
 //                break;
             } catch(Exception _e){
         		debug.outln(Debug.WARNING, "createExchange failed: " + _streamingName + " : "+ _e.getMessage());
+        		_e.printStackTrace();
                 try{
                     Thread.sleep(5000);
                 }catch(InterruptedException _e1){}
@@ -108,14 +123,12 @@ public class InfluxExchange extends AbstractExchange<ExchangeConfiguration> {
             }
         }
 //    	debug.outln("streamingExchange.3: " + configuration.getShortName());
-// for binance
-//        if(configuration.needsToSubscribeBeforeConnect()){
-//        }
+//
 
 		streamingMarketDataService = streamingExchange.getStreamingMarketDataService();
 		setState(STATE_READY);
-//        assignProductSubscription();
     }
+
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
@@ -125,37 +138,42 @@ public class InfluxExchange extends AbstractExchange<ExchangeConfiguration> {
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
     public io.reactivex.Observable<Trade> getTrades(CurrencyPair _currencyPair){
-    	waitUntilIsReady();
 		CurrencyPair _currencyPairCode = configuration.getCurrencyPairCode(_currencyPair);
 //		debug.outln("subscribing to ..."+getShortName()+" , -->_currencyPair="+_currencyPair+", _currencyPairCode="+_currencyPairCode);
 		if(_currencyPairCode == null){
 			debug.outln(Debug.ERROR, "There is no mapped symbol for "+_currencyPair + " in " + getShortName());
 			System.exit(0);
 		}
+		productSubscriptionBuilder.addTrades(_currencyPairCode);
+    	waitUntilIsReady();
     	return streamingMarketDataService.getTrades(_currencyPairCode);
 	}
 
 //-------------------------------------------------------------------------------------
     public io.reactivex.Observable<Ticker> getTicker(CurrencyPair _currencyPair){
-    	waitUntilIsReady();
+//    	waitUntilIsReady();
 		CurrencyPair _currencyPairCode = configuration.getCurrencyPairCode(_currencyPair);
 //        			debug.outln("subscribing to ..."+getShortName()+" , -->_currencyPair="+_currencyPair+", _currencyPairCode="+_currencyPairCode);
 		if(_currencyPairCode == null){
 			debug.outln(Debug.ERROR, "There is no mapped symbol for "+_currencyPair + " in " + getShortName());
 			System.exit(0);
 		}
+		productSubscriptionBuilder.addTicker(_currencyPairCode);
+    	waitUntilIsReady();
     	return streamingMarketDataService.getTicker(_currencyPairCode);
 	}
 
 //-------------------------------------------------------------------------------------
     public io.reactivex.Observable<OrderBook> getOrderBook(CurrencyPair _currencyPair){
-    	waitUntilIsReady();
+//    	waitUntilIsReady();
 		CurrencyPair _currencyPairCode = configuration.getCurrencyPairCode(_currencyPair);
 //        			debug.outln("subscribing to ..."+getShortName()+" , -->_currencyPair="+_currencyPair+", _currencyPairCode="+_currencyPairCode);
 		if(_currencyPairCode == null){
 			debug.outln(Debug.ERROR, "There is no mapped symbol for "+_currencyPair + " in " + getShortName());
 			System.exit(0);
 		}
+		productSubscriptionBuilder.addOrderbook(_currencyPairCode);
+    	waitUntilIsReady();
     	return streamingMarketDataService.getOrderBook(_currencyPairCode, 5);
 	}
 

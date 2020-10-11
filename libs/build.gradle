@@ -24,12 +24,17 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.twitter4j:twitter4j-core:4.0.7'
+	implementation 'org.twitter4j:twitter4j-stream:4.0.7'
+	implementation 'org.twitter4j:twitter4j-async:4.0.7'
     implementation 'org.ta4j:ta4j-core:0.13'
     implementation 'org.knowm.xchange:xchange-core:5.0.2-SNAPSHOT'
-    implementation 'org.knowm.xchange:xchange-hitbtc:5.0.2-SNAPSHOT'
+    implementation 'org.knowm.xchange:xchange-binance:5.0.2-SNAPSHOT'
     implementation 'org.knowm.xchange:xchange-bitmex:5.0.2-SNAPSHOT'
-    implementation 'org.knowm.xchange:xchange-stream-hitbtc:5.0.2-SNAPSHOT'
+    implementation 'org.knowm.xchange:xchange-hitbtc:5.0.2-SNAPSHOT'
+    implementation 'org.knowm.xchange:xchange-stream-binance:5.0.2-SNAPSHOT'
     implementation 'org.knowm.xchange:xchange-stream-bitmex:5.0.2-SNAPSHOT'
+    implementation 'org.knowm.xchange:xchange-stream-hitbtc:5.0.2-SNAPSHOT'
 //    testImplementation 'ch.qos.logback:logback-classic:1.2.3'
 }
 

@@ -21,14 +21,19 @@ import codex.xbit.api.common.aspects.*;
 import codex.xbit.api.server.trader.core.components.*;
 
 import codex.xbit.api.server.trader.env.single.level5.signals.helpers.internal.*;
-import codex.xbit.api.server.trader.env.single.level5.signals.helpers.whalealert.*;
 import codex.xbit.api.server.trader.env.single.level5.signals.helpers.hps.*;
 import codex.xbit.api.server.trader.env.single.level5.signals.helpers.manual.*;
 import codex.xbit.api.server.trader.env.single.level5.signals.helpers.depthchart.*;
+import codex.xbit.api.server.trader.env.single.level5.signals.helpers.twitter.*;
+import codex.xbit.api.server.trader.env.single.level5.signals.helpers.twitter.crawler.*;
+import codex.xbit.api.server.trader.env.single.level5.signals.helpers.whalealert.*;
+import codex.xbit.api.server.trader.env.single.level5.signals.helpers.whalealert.crawler.*;
 
 //-------------------------------------------------------------------------------------
 public class Signals extends AbstractCluster<SignalConfiguration, Signal> {
 	private SignalsConfiguration configuration;
+	
+	private TwitterCrawler twitterCrawler;
 	private WhaleAlertCrawler whaleAlertCrawler;
 
 @SuppressWarnings("unchecked")
@@ -42,10 +47,15 @@ public class Signals extends AbstractCluster<SignalConfiguration, Signal> {
     	ConfigurationLoader<SignalsConfiguration> _configurationLoader = new ConfigurationLoader(debug, _path, SignalsConfiguration.class);
     	configuration = _configurationLoader.load("signals");
 
+		Debug _debug0 = new Debug(_home + "/.xbit/logs/twitter.log", true, _debug, "TWITTER", Debug.IMPORTANT3);
+		SignalConfiguration _signalConfiguration0 = configuration.get("twitter");
+		twitterCrawler = new TwitterCrawler(_debug0, _resolver, _signalConfiguration0);
 
-        Debug _debug0 = new Debug(_home + "/.xbit/logs/whalealert.log", true, _debug, "WHALE_ALERT", Debug.IMPORTANT3);
-    	SignalConfiguration _configuration = configuration.get("whalealert");
-    	whaleAlertCrawler = new WhaleAlertCrawler(_debug0, _resolver, _configuration);
+		Debug _debug1 = new Debug(_home + "/.xbit/logs/whalealert.log", true, _debug, "WHALE_ALERT", Debug.IMPORTANT3);
+		SignalConfiguration _signalConfiguration1 = configuration.get("whalealert");
+    	whaleAlertCrawler = new WhaleAlertCrawler(_debug1, _resolver, _signalConfiguration1);
+
+    	load();
     }
 
 //-------------------------------------------------------------------------------------
@@ -72,28 +82,38 @@ public class Signals extends AbstractCluster<SignalConfiguration, Signal> {
 	}
 
 //-------------------------------------------------------------------------------------
-    private Signal createSignal(CurrencyPair _currencyPair, Map<String, String> _arg) {
+    private synchronized Signal createSignal(CurrencyPair _currencyPair, Map<String, String> _arg) {
     	String _type = _arg.get("type");
 //    	List<String> _arg0 = _arg.get(1, _arg.size());
-    	SignalConfiguration _configuration = configuration.get(_type);
+    	SignalConfiguration _signalConfiguration = configuration.get(_type);
+    	if(_signalConfiguration == null){
+//    		System.out.println("Signals settings is null[" + _name + "]...\nExiting...");
+//    		System.exit(0);
+			debug.outln(Debug.ERROR, "Signals settings is null[" + _type + "]. Please update signal setting.");
+			return null;
+    	}
     	switch(_type){
     		case "internal": {
-    			return new InternalSignal(debug, resolver, _configuration, _currencyPair, _arg);
+    			return new InternalSignal(debug, resolver, _signalConfiguration, _currencyPair, _arg);
     		}
     		case "manual": {
-    			return new ManualSignal(debug, resolver, _configuration, _currencyPair, _arg);
+    			return new ManualSignal(debug, resolver, _signalConfiguration, _currencyPair, _arg);
     		}
     		case "whalealert": {
-    			return whaleAlertCrawler.getWhaleAlertSignal(_currencyPair);
+    			return whaleAlertCrawler.getSignal(_currencyPair, _arg);
     		}
     		case "hps": {
-    			return new HPS(debug, resolver, _configuration, _currencyPair, _arg);
+    			return new HPS(debug, resolver, _signalConfiguration, _currencyPair, _arg);
     		}
     		case "depthchart": {
-    			return new DepthChartSignal(debug, resolver, _configuration, _currencyPair, _arg);
+    			return new DepthChartSignal(debug, resolver, _signalConfiguration, _currencyPair, _arg);
+    		}
+    		case "twitter": {
+    			return twitterCrawler.getSignal(_currencyPair, _arg);
+//    			return new TwitterSignal(debug, resolver, _configuration, _currencyPair, _arg);
     		}
     		default: {
-    			debug.outln(Debug.ERROR, "Cannot fing signal type:" + _type);
+    			debug.outln(Debug.ERROR, "Unknown signal type:" + _type);
     			return null;
     		}
     	}
@@ -153,12 +173,14 @@ public class Signals extends AbstractCluster<SignalConfiguration, Signal> {
 //    	debug.outln(Debug.INFO, "Side....load...");
         super.load();
         whaleAlertCrawler.load();
+        twitterCrawler.load();
     }
 
 //-------------------------------------------------------------------------------------
     public void save() {
         super.save();
         whaleAlertCrawler.save();
+        twitterCrawler.save();
     }
 
 //-------------------------------------------------------------------------------------

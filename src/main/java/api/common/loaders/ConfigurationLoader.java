@@ -128,6 +128,9 @@ public class ConfigurationLoader<T extends Configuration> {
         String _pathString = _file.toString();
 //        debug.out(Debug.IMPORTANT3, "Loading "+_pathString+" ... ");
 //        File _file = new File(_path.toString());
+        if(_file == null){
+        	debug.outln(Debug.WARNING, "Configuration file is null!");
+        }	
         T _t = null;
         try {
             _t = mapper.readValue(_file, configurationClass);
@@ -143,7 +146,7 @@ public class ConfigurationLoader<T extends Configuration> {
  //           debug.outln(Debug.IMPORTANT3, " ]", false);
         	return _t;
         } catch (Exception e) {
-            debug.outln(Debug.ERROR, "error", false);
+            debug.outln(Debug.ERROR, "error: "+ _pathString, false);
             e.printStackTrace();
             System.exit(0);
             return null;

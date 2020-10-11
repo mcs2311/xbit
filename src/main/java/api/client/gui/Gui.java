@@ -13,19 +13,19 @@ import codex.common.utils.*;
 import codex.xbit.api.common.configs.*;
 import codex.xbit.api.client.cli.*;
 
-import codex.xbit.api.client.gui.tree.*;
-import codex.xbit.api.client.gui.tree.nodes.*;
+import codex.xbit.api.client.gui.selector.*;
+import codex.xbit.api.client.gui.selector.tree.nodes.*;
 import codex.xbit.api.client.gui.tab.*;
 import codex.xbit.api.client.gui.status.*;
 
 //-------------------------------------------------------------------------------------
-public class Gui extends JFrame implements Runnable{
+public class Gui extends JFrame implements Runnable {
     private Debug debug;
     private CommandImplementor commandImplementor;
     private ClientConfiguration clientConfiguration;
 //    private String user, server;
 
-    private Tree tree;
+    private Selector selector;
     private Tab tab;
     private Status status;
     
@@ -82,9 +82,9 @@ public class Gui extends JFrame implements Runnable{
         DefaultXbitTreeNode _xbitRootNode = new DefaultXbitTreeNode(debug, ""); 
         status = new Status(debug, this);
         tab = new Tab(debug, status, _xbitRootNode, clientConfiguration);
- 		tree = new Tree(debug, tab, _xbitRootNode);  
+ 		selector = new Selector(debug, tab, _xbitRootNode, clientConfiguration);  
 
-        add(tree, BorderLayout.WEST);
+        add(selector, BorderLayout.WEST);
         add(tab, BorderLayout.CENTER);
         add(status, BorderLayout.PAGE_END);
 
